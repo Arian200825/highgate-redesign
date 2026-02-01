@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Property Dashboard | Highgate Estate Agents</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --teal: #1B3A4B; --teal-light: #234d63; --gold: #C9A84C; --gold-hover: #b8953f;
+  --dark: #111827; --text: #374151; --muted: #6B7280; --border: #E5E7EB; --bg: #F9FAFB; --white: #fff;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: "Inter", -apple-system, sans-serif; color: var(--text); line-height: 1.6; background: var(--bg); }
+a { text-decoration: none; color: inherit; }
+
+/* Admin Nav */
+.admin-nav {
+  background: var(--teal); padding: 16px 32px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.admin-nav h1 {
+  font-family: "Playfair Display", serif; color: #fff;
+  font-size: 18px; font-weight: 600;
+}
+.admin-nav h1 span { color: var(--gold); font-size: 11px; font-family: "Inter", sans-serif; margin-left: 10px; text-transform: uppercase; letter-spacing: 2px; }
+.admin-nav-links { display: flex; gap: 16px; align-items: center; }
+.admin-nav-links a { color: rgba(255,255,255,.7); font-size: 13px; transition: color .2s; }
+.admin-nav-links a:hover { color: #fff; }
+.admin-badge { background: var(--gold); color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+
+/* Layout */
+.admin-container { max-width: 1200px; margin: 0 auto; padding: 32px; }
+.admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; }
+.admin-header h2 { font-size: 24px; font-weight: 700; color: var(--dark); }
+.admin-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 32px; }
+.admin-stat {
+  background: var(--white); border-radius: 12px; padding: 24px;
+  border: 1px solid var(--border); text-align: center;
+}
+.admin-stat-num { font-size: 32px; font-weight: 700; color: var(--teal); }
+.admin-stat-label { font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+/* Table */
+.admin-table-wrap {
+  background: var(--white); border-radius: 12px;
+  border: 1px solid var(--border); overflow: hidden;
+}
+.admin-table-header {
+  padding: 20px 24px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.admin-table-header h3 { font-size: 16px; font-weight: 600; color: var(--dark); }
+table { width: 100%; border-collapse: collapse; }
+thead { background: var(--bg); }
+th { padding: 12px 16px; font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; text-align: left; }
+td { padding: 16px; font-size: 14px; border-bottom: 1px solid var(--border); }
+tr:last-child td { border-bottom: none; }
+.prop-thumb {
+  width: 60px; height: 44px; border-radius: 6px;
+  background-size: cover; background-position: center;
+  display: inline-block; vertical-align: middle; margin-right: 10px;
+}
+.status-badge {
+  padding: 4px 10px; border-radius: 20px; font-size: 11px;
+  font-weight: 600; display: inline-block;
+}
+.status-active { background: #DCFCE7; color: #166534; }
+.status-sold { background: #FEE2E2; color: #991B1B; }
+.status-offer { background: #FEF3C7; color: #92400E; }
+.status-let { background: #EDE9FE; color: #5B21B6; }
+.status-draft { background: #F3F4F6; color: #6B7280; }
+
+/* Buttons */
+.btn {
+  padding: 8px 16px; border-radius: 8px; font-size: 13px;
+  font-weight: 600; cursor: pointer; font-family: inherit;
+  transition: all .2s; border: none;
+}
+.btn-primary { background: var(--gold); color: #fff; }
+.btn-primary:hover { background: var(--gold-hover); }
+.btn-sm { padding: 5px 10px; font-size: 11px; }
+.btn-outline { background: none; border: 1px solid var(--border); color: var(--text); }
+.btn-outline:hover { border-color: var(--teal); color: var(--teal); }
+.btn-danger { background: none; border: 1px solid #FCA5A5; color: #DC2626; }
+.btn-danger:hover { background: #FEF2F2; }
+.action-btns { display: flex; gap: 6px; }
+
+/* Modal */
+.admin-modal {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,.5); z-index: 200;
+  align-items: center; justify-content: center;
+}
+.admin-modal.show { display: flex; }
+.admin-modal-content {
+  background: var(--white); border-radius: 16px;
+  width: 90%; max-width: 700px; max-height: 85vh;
+  overflow-y: auto; padding: 32px;
+}
+.admin-modal-content h3 { font-size: 20px; font-weight: 700; color: var(--dark); margin-bottom: 24px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; font-size: 12px; font-weight: 600; color: var(--dark); margin-bottom: 6px; text-transform: uppercase; letter-spacing: .5px; }
+.form-group input, .form-group select, .form-group textarea {
+  width: 100%; padding: 10px 14px; border: 1px solid var(--border);
+  border-radius: 8px; font-size: 14px; font-family: inherit;
+  color: var(--text); outline: none;
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--gold); }
+.form-group textarea { resize: vertical; min-height: 80px; }
+.form-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 24px; }
+.img-upload-area {
+  border: 2px dashed var(--border); border-radius: 8px;
+  padding: 24px; text-align: center; cursor: pointer;
+  transition: border-color .2s;
+}
+.img-upload-area:hover { border-color: var(--gold); }
+.img-upload-area p { font-size: 13px; color: var(--muted); }
+.img-preview-grid { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+.img-preview {
+  width: 80px; height: 60px; border-radius: 6px;
+  background-size: cover; background-position: center;
+  position: relative;
+}
+.img-preview-remove {
+  position: absolute; top: -4px; right: -4px;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: #DC2626; color: #fff; border: none;
+  font-size: 10px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* Info banner */
+.info-banner {
+  background: #EFF6FF; border: 1px solid #BFDBFE;
+  border-radius: 10px; padding: 16px 20px;
+  display: flex; align-items: flex-start; gap: 12px;
+  margin-bottom: 24px;
+}
+.info-banner svg { flex-shrink: 0; margin-top: 2px; }
+.info-banner p { font-size: 13px; color: #1E40AF; }
+.info-banner strong { color: #1E3A5F; }
+
+@media (max-width: 768px) {
+  .admin-stats { grid-template-columns: repeat(2, 1fr); }
+  .form-row { grid-template-columns: 1fr; }
+  table { font-size: 12px; }
+  td, th { padding: 10px 8px; }
+  .prop-thumb { width: 40px; height: 30px; }
+}
+</style>
+</head>
+<body>
+
+<nav class="admin-nav">
+  <h1>Highgate<span>Admin Dashboard</span></h1>
+  <div class="admin-nav-links">
+    <a href="index.html">View Live Site</a>
+    <span class="admin-badge">Admin</span>
+  </div>
+</nav>
+
+<div class="admin-container">
+  <div class="info-banner">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+    <p><strong>Property Dashboard</strong> — Add, edit, and remove properties from your website. Changes are saved to your browser's local storage. For a production CMS, connect this to WordPress REST API or a headless CMS like Sanity/Strapi. See the implementation guide below.</p>
+  </div>
+
+  <div class="admin-stats">
+    <div class="admin-stat">
+      <div class="admin-stat-num" id="statTotal">6</div>
+      <div class="admin-stat-label">Total Properties</div>
+    </div>
+    <div class="admin-stat">
+      <div class="admin-stat-num" id="statActive">0</div>
+      <div class="admin-stat-label">Active Listings</div>
+    </div>
+    <div class="admin-stat">
+      <div class="admin-stat-num" id="statSold">6</div>
+      <div class="admin-stat-label">Sold / Let</div>
+    </div>
+    <div class="admin-stat">
+      <div class="admin-stat-num" id="statViews">—</div>
+      <div class="admin-stat-label">Monthly Views</div>
+    </div>
+  </div>
+
+  <div class="admin-table-wrap">
+    <div class="admin-table-header">
+      <h3>Property Listings</h3>
+      <button class="btn btn-primary" id="addPropertyBtn">+ Add Property</button>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Property</th>
+          <th>Price</th>
+          <th>Type</th>
+          <th>Beds</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="propertyTableBody">
+        <!-- Populated by JS -->
+      </tbody>
+    </table>
+  </div>
+
+  <!-- CMS Integration Guide -->
+  <div style="margin-top:32px; background:var(--white); border-radius:12px; border:1px solid var(--border); padding:32px;">
+    <h3 style="font-size:18px; font-weight:700; color:var(--dark); margin-bottom:16px;">Production CMS Integration Guide</h3>
+    <p style="font-size:14px; color:var(--text); line-height:1.8; margin-bottom:16px;">
+      This dashboard uses localStorage for demonstration. For a production site, connect it to one of these options:
+    </p>
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+      <div style="padding:20px; background:var(--bg); border-radius:10px;">
+        <h4 style="font-size:14px; font-weight:600; color:var(--dark); margin-bottom:8px;">Option 1: WordPress + REST API</h4>
+        <p style="font-size:13px; color:var(--muted); line-height:1.7;">
+          Install WordPress with WP Property Starter plugin. Replace localStorage calls with fetch() to the WP REST API endpoints. Properties auto-sync to the front-end via JSON. Client manages via wp-admin.
+        </p>
+      </div>
+      <div style="padding:20px; background:var(--bg); border-radius:10px;">
+        <h4 style="font-size:14px; font-weight:600; color:var(--dark); margin-bottom:8px;">Option 2: Headless CMS (Sanity / Strapi)</h4>
+        <p style="font-size:13px; color:var(--muted); line-height:1.7;">
+          Set up Sanity.io or Strapi with a Property schema. Replace localStorage with API calls. Client uses the CMS dashboard. Free tier available for small agencies.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ADD/EDIT PROPERTY MODAL -->
+<div class="admin-modal" id="propertyModal">
+  <div class="admin-modal-content">
+    <h3 id="modalTitle">Add New Property</h3>
+    <input type="hidden" id="editId" value="">
+    <div class="form-row">
+      <div class="form-group">
+        <label>Address</label>
+        <input type="text" id="propAddress" placeholder="e.g. 12 Southwood Lane, Highgate N6">
+      </div>
+      <div class="form-group">
+        <label>Price (£)</label>
+        <input type="number" id="propPrice" placeholder="e.g. 1500000">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Property Type</label>
+        <select id="propType">
+          <option value="terraced">Terraced House</option>
+          <option value="detached">Detached House</option>
+          <option value="semi-detached">Semi-Detached House</option>
+          <option value="apartment">Apartment / Flat</option>
+          <option value="bungalow">Bungalow</option>
+          <option value="maisonette">Maisonette</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Bedrooms</label>
+        <select id="propBeds">
+          <option value="1">1</option><option value="2">2</option>
+          <option value="3">3</option><option value="4">4</option>
+          <option value="5">5</option><option value="6">6+</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Bathrooms</label>
+        <select id="propBaths">
+          <option value="1">1</option><option value="2">2</option>
+          <option value="3">3</option><option value="4">4+</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Floor Area (sqft)</label>
+        <input type="number" id="propSqft" placeholder="e.g. 2500">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Status</label>
+        <select id="propStatus">
+          <option value="for-sale">For Sale</option>
+          <option value="under-offer">Under Offer</option>
+          <option value="sold">Sold STC</option>
+          <option value="previously-sold">Previously Sold</option>
+          <option value="to-let">To Let</option>
+          <option value="let-agreed">Let Agreed</option>
+          <option value="draft">Draft (Hidden)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Location Area</label>
+        <select id="propArea">
+          <option value="highgate">Highgate</option>
+          <option value="muswell-hill">Muswell Hill</option>
+          <option value="crouch-end">Crouch End</option>
+          <option value="archway">Archway</option>
+          <option value="hornsey">Hornsey</option>
+          <option value="hampstead">Hampstead</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Description</label>
+      <textarea id="propDesc" placeholder="Property description..."></textarea>
+    </div>
+    <div class="form-group">
+      <label>Main Image URL</label>
+      <input type="text" id="propImage" placeholder="https://...">
+    </div>
+    <div class="form-group">
+      <label>Additional Image URLs (one per line)</label>
+      <textarea id="propImages" placeholder="https://image2.jpg&#10;https://image3.jpg&#10;https://image4.jpg" style="min-height:60px;"></textarea>
+    </div>
+    <div class="form-group">
+      <label>Floor Plan Image URL (optional)</label>
+      <input type="text" id="propFloorplan" placeholder="https://...">
+    </div>
+    <div class="form-group">
+      <label>Virtual Tour Embed URL (optional)</label>
+      <input type="text" id="propTour" placeholder="https://my.matterport.com/...">
+    </div>
+    <div class="form-group">
+      <label>EPC Rating</label>
+      <select id="propEpc">
+        <option value="A">A</option><option value="B">B</option>
+        <option value="C" selected>C</option><option value="D">D</option>
+        <option value="E">E</option><option value="F">F</option>
+        <option value="G">G</option>
+      </select>
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-outline" id="cancelBtn">Cancel</button>
+      <button class="btn btn-primary" id="savePropertyBtn">Save Property</button>
+    </div>
+  </div>
+</div>
+
+<!-- DELETE CONFIRM MODAL -->
+<div class="admin-modal" id="deleteModal">
+  <div class="admin-modal-content" style="max-width:400px; text-align:center;">
+    <h3 style="color:#DC2626;">Delete Property</h3>
+    <p style="font-size:14px; color:var(--muted); margin-bottom:24px;">Are you sure you want to remove this property? This action cannot be undone.</p>
+    <div class="form-actions" style="justify-content:center;">
+      <button class="btn btn-outline" id="cancelDeleteBtn">Cancel</button>
+      <button class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Property data management via localStorage ──
+var defaultProperties = [
+  { id: 1, address: "Whitehall Park, London N19", price: 1925000, type: "terraced", beds: 5, baths: 2, sqft: 2533, status: "previously-sold", area: "highgate", desc: "A stunning five-bedroom Victorian terraced house.", image: "https://highgateestateagents.co.uk/wp-content/uploads/2025/07/1.-Whitehall-Park-London-N19-H0005-780x780.webp", epc: "C" },
+  { id: 2, address: "Jacksons Lane, Hornsey, London N6", price: 2715000, type: "terraced", beds: 5, baths: 3, sqft: 3098, status: "previously-sold", area: "hornsey", desc: "An impressive five-bedroom terraced house.", image: "https://highgateestateagents.co.uk/wp-content/uploads/2025/07/1.-Jacksons-Lane-Hornsey-London-N6-H0004-780x780.webp", epc: "C" },
+  { id: 3, address: "Southwood Lane, Hornsey, London N6", price: 1885000, type: "terraced", beds: 4, baths: 3, sqft: 1751, status: "previously-sold", area: "hornsey", desc: "A charming four-bedroom terraced house.", image: "https://highgateestateagents.co.uk/wp-content/uploads/2025/06/1.-Southwood-Lane-Hornsey-London-N6-H0003-780x780.webp", epc: "C" },
+  { id: 4, address: "Onslow Gardens, Hornsey, London N10", price: 2000000, type: "terraced", beds: 5, baths: 2, sqft: 2595, status: "previously-sold", area: "hornsey", desc: "A handsome five-bedroom terraced house.", image: "https://highgateestateagents.co.uk/wp-content/uploads/2025/06/1.-Onslow-Gardens-Hornsey-London-N10-H0002-780x780.webp", epc: "C" },
+  { id: 5, address: "View Road, Hornsey, London N6", price: 3212500, type: "detached", beds: 4, baths: 3, sqft: 3089, status: "previously-sold", area: "hornsey", desc: "An exceptional detached family home.", image: "https://highgateestateagents.co.uk/wp-content/uploads/2025/06/1.-View-Road-Hornsey-London-N6-h0001-780x780.webp", epc: "C" },
+  { id: 6, address: "Wood Lane, Highgate, London N6", price: 1000000, type: "apartment", beds: 3, baths: 2, sqft: 1480, status: "previously-sold", area: "highgate", desc: "A beautifully appointed three-bedroom apartment.", image: "https://highgateestateagents.co.uk/wp-content/uploads/2023/01/1.-Wood-Lane-Apartment-For-Sale-Highgate-HG06-1-780x780.webp", epc: "C" }
+];
+
+function getProperties() {
+  var stored = localStorage.getItem('hea_properties');
+  if (stored) return JSON.parse(stored);
+  localStorage.setItem('hea_properties', JSON.stringify(defaultProperties));
+  return defaultProperties;
+}
+
+function saveProperties(props) {
+  localStorage.setItem('hea_properties', JSON.stringify(props));
+}
+
+function formatPrice(p) {
+  return '£' + Number(p).toLocaleString('en-GB');
+}
+
+function getStatusLabel(s) {
+  var map = {
+    'for-sale': '<span class="status-badge status-active">For Sale</span>',
+    'under-offer': '<span class="status-badge status-offer">Under Offer</span>',
+    'sold': '<span class="status-badge status-sold">Sold STC</span>',
+    'previously-sold': '<span class="status-badge status-sold">Previously Sold</span>',
+    'to-let': '<span class="status-badge status-active">To Let</span>',
+    'let-agreed': '<span class="status-badge status-let">Let Agreed</span>',
+    'draft': '<span class="status-badge status-draft">Draft</span>'
+  };
+  return map[s] || s;
+}
+
+function getTypeLabel(t) {
+  var map = { 'terraced': 'Terraced', 'detached': 'Detached', 'semi-detached': 'Semi-Det.', 'apartment': 'Apartment', 'bungalow': 'Bungalow', 'maisonette': 'Maisonette' };
+  return map[t] || t;
+}
+
+function renderTable() {
+  var props = getProperties();
+  var tbody = document.getElementById('propertyTableBody');
+  tbody.innerHTML = '';
+  var active = 0, sold = 0;
+  props.forEach(function(p) {
+    if (p.status === 'for-sale' || p.status === 'to-let') active++;
+    if (p.status === 'sold' || p.status === 'previously-sold' || p.status === 'let-agreed') sold++;
+    var tr = document.createElement('tr');
+    tr.innerHTML = '<td><span class="prop-thumb" style="background-image:url(\'' + (p.image || '') + '\')"></span>' + p.address + '</td>' +
+      '<td>' + formatPrice(p.price) + '</td>' +
+      '<td>' + getTypeLabel(p.type) + '</td>' +
+      '<td>' + p.beds + '</td>' +
+      '<td>' + getStatusLabel(p.status) + '</td>' +
+      '<td><div class="action-btns">' +
+        '<button class="btn btn-sm btn-outline edit-btn" data-id="' + p.id + '">Edit</button>' +
+        '<button class="btn btn-sm btn-outline status-btn" data-id="' + p.id + '">Status</button>' +
+        '<button class="btn btn-sm btn-danger delete-btn" data-id="' + p.id + '">Delete</button>' +
+      '</div></td>';
+    tbody.appendChild(tr);
+  });
+  document.getElementById('statTotal').textContent = props.length;
+  document.getElementById('statActive').textContent = active;
+  document.getElementById('statSold').textContent = sold;
+
+  // Re-bind events
+  document.querySelectorAll('.edit-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() { editProperty(parseInt(btn.getAttribute('data-id'))); });
+  });
+  document.querySelectorAll('.delete-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() { deleteProperty(parseInt(btn.getAttribute('data-id'))); });
+  });
+  document.querySelectorAll('.status-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() { cycleStatus(parseInt(btn.getAttribute('data-id'))); });
+  });
+}
+
+// Modal management
+var modal = document.getElementById('propertyModal');
+var deleteModalEl = document.getElementById('deleteModal');
+var deleteTargetId = null;
+
+document.getElementById('addPropertyBtn').addEventListener('click', function() {
+  clearForm();
+  document.getElementById('modalTitle').textContent = 'Add New Property';
+  document.getElementById('editId').value = '';
+  modal.classList.add('show');
+});
+
+document.getElementById('cancelBtn').addEventListener('click', function() { modal.classList.remove('show'); });
+document.getElementById('cancelDeleteBtn').addEventListener('click', function() { deleteModalEl.classList.remove('show'); });
+
+function clearForm() {
+  ['propAddress','propPrice','propSqft','propDesc','propImage','propImages','propFloorplan','propTour'].forEach(function(id) {
+    document.getElementById(id).value = '';
+  });
+  document.getElementById('propType').value = 'terraced';
+  document.getElementById('propBeds').value = '3';
+  document.getElementById('propBaths').value = '2';
+  document.getElementById('propStatus').value = 'for-sale';
+  document.getElementById('propArea').value = 'highgate';
+  document.getElementById('propEpc').value = 'C';
+}
+
+function editProperty(id) {
+  var props = getProperties();
+  var p = props.find(function(x) { return x.id === id; });
+  if (!p) return;
+  document.getElementById('modalTitle').textContent = 'Edit Property';
+  document.getElementById('editId').value = id;
+  document.getElementById('propAddress').value = p.address || '';
+  document.getElementById('propPrice').value = p.price || '';
+  document.getElementById('propType').value = p.type || 'terraced';
+  document.getElementById('propBeds').value = p.beds || '3';
+  document.getElementById('propBaths').value = p.baths || '2';
+  document.getElementById('propSqft').value = p.sqft || '';
+  document.getElementById('propStatus').value = p.status || 'for-sale';
+  document.getElementById('propArea').value = p.area || 'highgate';
+  document.getElementById('propDesc').value = p.desc || '';
+  document.getElementById('propImage').value = p.image || '';
+  document.getElementById('propImages').value = (p.images || []).join('\n');
+  document.getElementById('propFloorplan').value = p.floorplan || '';
+  document.getElementById('propTour').value = p.tour || '';
+  document.getElementById('propEpc').value = p.epc || 'C';
+  modal.classList.add('show');
+}
+
+function deleteProperty(id) {
+  deleteTargetId = id;
+  deleteModalEl.classList.add('show');
+}
+
+document.getElementById('confirmDeleteBtn').addEventListener('click', function() {
+  if (deleteTargetId === null) return;
+  var props = getProperties().filter(function(p) { return p.id !== deleteTargetId; });
+  saveProperties(props);
+  deleteTargetId = null;
+  deleteModalEl.classList.remove('show');
+  renderTable();
+});
+
+function cycleStatus(id) {
+  var props = getProperties();
+  var statusCycle = ['for-sale', 'under-offer', 'sold', 'previously-sold', 'to-let', 'let-agreed', 'draft'];
+  props.forEach(function(p) {
+    if (p.id === id) {
+      var idx = statusCycle.indexOf(p.status);
+      p.status = statusCycle[(idx + 1) % statusCycle.length];
+    }
+  });
+  saveProperties(props);
+  renderTable();
+}
+
+// Save property
+document.getElementById('savePropertyBtn').addEventListener('click', function() {
+  var address = document.getElementById('propAddress').value.trim();
+  var price = document.getElementById('propPrice').value;
+  if (!address || !price) { alert('Please enter at least an address and price.'); return; }
+
+  var props = getProperties();
+  var editId = document.getElementById('editId').value;
+  var imagesText = document.getElementById('propImages').value.trim();
+  var images = imagesText ? imagesText.split('\n').map(function(s) { return s.trim(); }).filter(Boolean) : [];
+
+  var propData = {
+    address: address,
+    price: parseInt(price),
+    type: document.getElementById('propType').value,
+    beds: parseInt(document.getElementById('propBeds').value),
+    baths: parseInt(document.getElementById('propBaths').value),
+    sqft: parseInt(document.getElementById('propSqft').value) || 0,
+    status: document.getElementById('propStatus').value,
+    area: document.getElementById('propArea').value,
+    desc: document.getElementById('propDesc').value.trim(),
+    image: document.getElementById('propImage').value.trim(),
+    images: images,
+    floorplan: document.getElementById('propFloorplan').value.trim(),
+    tour: document.getElementById('propTour').value.trim(),
+    epc: document.getElementById('propEpc').value
+  };
+
+  if (editId) {
+    props.forEach(function(p) {
+      if (p.id === parseInt(editId)) { Object.assign(p, propData); }
+    });
+  } else {
+    var maxId = props.reduce(function(max, p) { return p.id > max ? p.id : max; }, 0);
+    propData.id = maxId + 1;
+    props.push(propData);
+  }
+
+  saveProperties(props);
+  modal.classList.remove('show');
+  renderTable();
+});
+
+// Close modals on overlay click
+[modal, deleteModalEl].forEach(function(m) {
+  m.addEventListener('click', function(e) {
+    if (e.target === m) m.classList.remove('show');
+  });
+});
+
+// Initial render
+renderTable();
+</script>
+
+</body>
+</html>

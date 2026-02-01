@@ -4,6 +4,64 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Highgate Estate Agents | Independent Property Experts in North London</title>
+<meta name="description" content="Highgate Estate Agents – independent estate agency in North London. Buy, sell or let property in Highgate, Muswell Hill, Crouch End, Archway, Hornsey &amp; Hampstead. Free valuations. 5-star Google rated.">
+<meta name="keywords" content="estate agents highgate, property for sale highgate, north london estate agents, muswell hill estate agents, crouch end property, free property valuation north london">
+<meta name="author" content="Highgate Estate Agents">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://arian200825.github.io/highgate-redesign/">
+<!-- Open Graph -->
+<meta property="og:title" content="Highgate Estate Agents | Independent Property Experts in North London">
+<meta property="og:description" content="Personalised estate agency services across Highgate, Muswell Hill, Crouch End and North London. Free valuations. 5-star rated.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://arian200825.github.io/highgate-redesign/">
+<meta property="og:image" content="https://highgateestateagents.co.uk/wp-content/uploads/2025/07/estate-agents-in-highgate-london-n6.webp">
+<meta property="og:locale" content="en_GB">
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Highgate Estate Agents | North London Property Experts">
+<meta name="twitter:description" content="Independent estate agency in Highgate, North London. Free valuations, 5-star Google rated.">
+<meta name="twitter:image" content="https://highgateestateagents.co.uk/wp-content/uploads/2025/07/estate-agents-in-highgate-london-n6.webp">
+<!-- Local Business Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "RealEstateAgent",
+  "name": "Highgate Estate Agents",
+  "description": "Independent estate agency serving Highgate and North London with personalised property services.",
+  "url": "https://highgateestateagents.co.uk",
+  "telephone": "+442030514206",
+  "email": "info@highgateestateagents.co.uk",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Highgate",
+    "addressRegion": "London",
+    "postalCode": "N6",
+    "addressCountry": "GB"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 51.5714,
+    "longitude": -0.1462
+  },
+  "areaServed": [
+    "Highgate", "Muswell Hill", "Crouch End", "Archway", "Hornsey", "Hampstead"
+  ],
+  "openingHoursSpecification": [
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"], "opens": "09:00", "closes": "18:00" },
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday", "opens": "10:00", "closes": "16:00" }
+  ],
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "5.0",
+    "reviewCount": "47",
+    "bestRating": "5"
+  },
+  "priceRange": "££"
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://highgateestateagents.co.uk">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -932,6 +990,188 @@ img { max-width: 100%; display: block; }
   .cookie-banner { flex-direction: column; text-align: center; }
   .cookie-banner p { max-width: 100%; }
 }
+
+/* ══ ENHANCED SEARCH — Min Price & Rent Toggle ══ */
+.search-toggle span {
+  user-select: none;
+  border: 1px solid var(--border);
+}
+.search-toggle .active { border-color: var(--teal); }
+.search-toggle .inactive:hover { background: #e5e7eb; }
+.price-range-row { display: flex; gap: 8px; width: 100%; }
+.price-range-row .search-field { min-width: 0; flex: 1; }
+.rent-label { display: none; }
+.rent-mode .sale-label { display: none; }
+.rent-mode .rent-label { display: inline; }
+
+/* ══ MAP VIEW ══ */
+.map-toggle-wrap { text-align: center; margin-top: 16px; }
+.map-toggle-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--white); border: 1px solid var(--border);
+  padding: 8px 20px; border-radius: 8px;
+  font-size: 13px; font-weight: 500; color: var(--teal);
+  cursor: pointer; font-family: inherit; transition: all .2s;
+}
+.map-toggle-btn:hover { border-color: var(--teal); background: #f0f7fa; }
+.map-toggle-btn.active { background: var(--teal); color: #fff; border-color: var(--teal); }
+.map-container {
+  display: none; max-width: 960px; margin: 20px auto 0;
+  border-radius: 12px; overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,.08);
+  border: 1px solid var(--border);
+}
+.map-container.show { display: block; }
+.map-container iframe { width: 100%; height: 400px; border: 0; }
+
+/* ══ PROPERTY STATUS BADGES (enhanced) ══ */
+.badge-let { background: #7C3AED; }
+.badge-under-offer { background: #D97706; }
+.badge-new { background: #059669; }
+.badge-reduced { background: #EA580C; }
+
+/* ══ MODAL TABS — Floor Plans / Virtual Tour ══ */
+.modal-tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); margin-bottom: 16px; }
+.modal-tab {
+  flex: 1; padding: 10px 16px; text-align: center;
+  font-size: 12px; font-weight: 600; cursor: pointer;
+  color: var(--muted); border-bottom: 2px solid transparent;
+  transition: all .2s; background: none; border-top: none;
+  border-left: none; border-right: none; font-family: inherit;
+  text-transform: uppercase; letter-spacing: .5px;
+}
+.modal-tab.active { color: var(--teal); border-bottom-color: var(--gold); }
+.modal-tab:hover { color: var(--teal); }
+.modal-tab-content { display: none; }
+.modal-tab-content.active { display: block; }
+.floorplan-placeholder, .tour-placeholder {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 32px 20px; text-align: center;
+  background: var(--bg); border-radius: 8px;
+  min-height: 120px;
+}
+.floorplan-placeholder svg, .tour-placeholder svg { margin-bottom: 12px; opacity: .4; }
+.floorplan-placeholder p, .tour-placeholder p { font-size: 13px; color: var(--muted); }
+.floorplan-placeholder strong, .tour-placeholder strong { font-size: 14px; color: var(--dark); display: block; margin-bottom: 4px; }
+
+/* ══ STICKY BOOK VIEWING CTA ══ */
+.sticky-cta {
+  position: fixed; bottom: -80px; left: 0; right: 0;
+  background: var(--white); z-index: 190;
+  padding: 12px 32px;
+  box-shadow: 0 -4px 20px rgba(0,0,0,.1);
+  border-top: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center; gap: 16px;
+  transition: bottom .4s ease;
+}
+.sticky-cta.show { bottom: 0; }
+.sticky-cta-text { font-size: 14px; font-weight: 600; color: var(--dark); }
+.sticky-cta-text span { color: var(--muted); font-weight: 400; font-size: 13px; }
+.sticky-cta-btn {
+  background: var(--gold); color: #fff; border: none;
+  padding: 10px 24px; border-radius: 8px;
+  font-size: 13px; font-weight: 600; cursor: pointer;
+  font-family: inherit; transition: background .2s;
+}
+.sticky-cta-btn:hover { background: var(--gold-hover); }
+.sticky-cta-phone {
+  color: var(--teal); font-size: 14px; font-weight: 600;
+  text-decoration: none; display: flex; align-items: center; gap: 6px;
+}
+
+/* ══ VALUATION TRUST SIGNALS ══ */
+.val-trust-row {
+  display: flex; gap: 24px; justify-content: center;
+  margin-top: 20px; flex-wrap: wrap;
+}
+.val-trust-item {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; color: rgba(255,255,255,.65);
+}
+.val-trust-item svg { flex-shrink: 0; }
+
+/* ══ FORM TRUST MICRO-COPY ══ */
+.form-trust {
+  display: flex; align-items: center; gap: 8px;
+  margin-top: 12px; padding: 10px 14px;
+  background: #f0fdf4; border-radius: 8px;
+  border: 1px solid #bbf7d0;
+}
+.form-trust svg { flex-shrink: 0; }
+.form-trust p { font-size: 11px; color: #166534; margin: 0; }
+
+/* ══ ACCREDITATION / TRUST BAR ══ */
+.trust-bar {
+  background: var(--white); border-bottom: 1px solid var(--border);
+  padding: 16px 0; text-align: center;
+}
+.trust-bar-inner {
+  display: flex; align-items: center; justify-content: center;
+  gap: 32px; flex-wrap: wrap; max-width: 900px;
+  margin: 0 auto; padding: 0 32px;
+}
+.trust-bar-item {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 12px; color: var(--muted); font-weight: 500;
+}
+.trust-bar-item strong { color: var(--dark); }
+
+/* ══ GOOGLE REVIEW RICH SNIPPET CARD ══ */
+.review-snippet {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--white); border: 1px solid var(--border);
+  padding: 12px 20px; border-radius: 10px; margin-top: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.04);
+}
+.review-snippet-logo { width: 20px; height: 20px; }
+.review-snippet-stars { color: #F59E0B; font-size: 15px; letter-spacing: 1px; }
+.review-snippet-text { font-size: 12px; color: var(--muted); }
+.review-snippet-text strong { color: var(--dark); font-size: 14px; }
+
+/* ══ CHATBOT ENHANCEMENTS ══ */
+.chat-cta-link {
+  display: inline-block; margin-top: 8px;
+  color: var(--gold); font-weight: 600;
+  font-size: 12px; text-decoration: underline;
+  cursor: pointer;
+}
+.chat-typing { display: flex; gap: 4px; padding: 12px 14px; align-self: flex-start; }
+.chat-typing span {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #cbd5e1; animation: typing 1.4s infinite;
+}
+.chat-typing span:nth-child(2) { animation-delay: .2s; }
+.chat-typing span:nth-child(3) { animation-delay: .4s; }
+@keyframes typing {
+  0%, 60%, 100% { transform: translateY(0); opacity: .4; }
+  30% { transform: translateY(-6px); opacity: 1; }
+}
+
+/* ══ URGENCY MICRO-BANNER ══ */
+.urgency-banner {
+  background: #FFFBEB; border: 1px solid #FDE68A;
+  border-radius: 8px; padding: 10px 16px;
+  font-size: 13px; color: #92400E;
+  text-align: center; margin-top: 16px;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.urgency-banner strong { color: #78350F; }
+
+/* ══ RESPONSIVE ADDITIONS ══ */
+@media (max-width: 768px) {
+  .sticky-cta { padding: 10px 16px; gap: 10px; }
+  .sticky-cta-text { display: none; }
+  .sticky-cta-phone { font-size: 12px; }
+  .trust-bar-inner { gap: 16px; }
+  .trust-bar-item { font-size: 11px; }
+  .val-trust-row { gap: 12px; }
+  .val-trust-item { font-size: 11px; }
+  .map-container iframe { height: 280px; }
+  .price-range-row { flex-direction: column; }
+  .mobile-bar { bottom: 0 !important; }
+  .sticky-cta.show ~ .mobile-bar { display: none; }
+}
 </style>
 </head>
 <body>
@@ -986,14 +1226,73 @@ img { max-width: 100%; display: block; }
       <select id="filterBeds"><option value="">Any</option><option value="1">1+</option><option value="2">2+</option><option value="3">3+</option><option value="4">4+</option><option value="5">5+</option></select>
     </div>
     <div class="search-field">
+      <label>Min Price</label>
+      <select id="filterMinPrice">
+        <option value="">No Min</option>
+        <option value="250000" class="sale-price">£250,000</option>
+        <option value="500000" class="sale-price">£500,000</option>
+        <option value="750000" class="sale-price">£750,000</option>
+        <option value="1000000" class="sale-price">£1,000,000</option>
+        <option value="2000000" class="sale-price">£2,000,000</option>
+        <option value="500" class="rent-price" style="display:none">£500 pcm</option>
+        <option value="1000" class="rent-price" style="display:none">£1,000 pcm</option>
+        <option value="1500" class="rent-price" style="display:none">£1,500 pcm</option>
+        <option value="2000" class="rent-price" style="display:none">£2,000 pcm</option>
+        <option value="3000" class="rent-price" style="display:none">£3,000 pcm</option>
+      </select>
+    </div>
+    <div class="search-field">
       <label>Max Price</label>
-      <select id="filterPrice"><option value="">No Max</option><option value="500000">£500,000</option><option value="750000">£750,000</option><option value="1000000">£1,000,000</option><option value="2000000">£2,000,000</option><option value="5000000">£5,000,000</option></select>
+      <select id="filterPrice">
+        <option value="">No Max</option>
+        <option value="500000" class="sale-price">£500,000</option>
+        <option value="750000" class="sale-price">£750,000</option>
+        <option value="1000000" class="sale-price">£1,000,000</option>
+        <option value="2000000" class="sale-price">£2,000,000</option>
+        <option value="5000000" class="sale-price">£5,000,000</option>
+        <option value="1000" class="rent-price" style="display:none">£1,000 pcm</option>
+        <option value="1500" class="rent-price" style="display:none">£1,500 pcm</option>
+        <option value="2000" class="rent-price" style="display:none">£2,000 pcm</option>
+        <option value="3000" class="rent-price" style="display:none">£3,000 pcm</option>
+        <option value="5000" class="rent-price" style="display:none">£5,000 pcm</option>
+      </select>
     </div>
     <button class="search-submit" id="searchBtn">Search</button>
   </div>
   <div class="filter-active-bar" id="filterBar">
     <span id="filterBarText">Showing 0 of 6 properties</span>
     <button class="filter-clear" id="filterClear">Clear filters</button>
+  </div>
+  <div class="map-toggle-wrap">
+    <button class="map-toggle-btn" id="mapToggle">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
+      Map View
+    </button>
+  </div>
+  <div class="map-container" id="mapContainer">
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d9913.8!2d-0.1520!3d51.5715!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48761a0d9d4d4b2f%3A0x7b6c2a8d8e8d8d8e!2sHighgate%2C%20London!5e0!3m2!1sen!2suk!4v1700000000000!5m2!1sen!2suk" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Highgate area map"></iframe>
+  </div>
+</div>
+
+<!-- TRUST / ACCREDITATION BAR -->
+<div class="trust-bar">
+  <div class="trust-bar-inner">
+    <div class="trust-bar-item">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      <span>ICO <strong>Registered</strong></span>
+    </div>
+    <div class="trust-bar-item">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg>
+      <span><strong>5.0</strong> Google Rating</span>
+    </div>
+    <div class="trust-bar-item">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1B3A4B" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      <span>The Property <strong>Ombudsman</strong></span>
+    </div>
+    <div class="trust-bar-item">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1B3A4B" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      <span>Client Money <strong>Protection</strong></span>
+    </div>
   </div>
 </div>
 
@@ -1188,7 +1487,25 @@ img { max-width: 100%; display: block; }
 <section class="cta-banner" id="valuation">
   <h2>Thinking of Selling?</h2>
   <p>Get a free, no-obligation property valuation from our experienced local team.</p>
-  <a href="#contact" class="btn-primary" style="font-size:16px;padding:16px 36px;display:inline-block">Book Your Free Valuation</a>
+  <a href="#contact-form" class="btn-primary" style="font-size:16px;padding:16px 36px;display:inline-block">Book Your Free Valuation</a>
+  <div class="val-trust-row">
+    <div class="val-trust-item">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.6)" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      No obligation, completely free
+    </div>
+    <div class="val-trust-item">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.6)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      45-min home visit
+    </div>
+    <div class="val-trust-item">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.6)" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+      Expert local valuers
+    </div>
+    <div class="val-trust-item">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.6)" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg>
+      98% ask-price achieved
+    </div>
+  </div>
 </section>
 
 <!-- TESTIMONIALS -->
@@ -1223,6 +1540,13 @@ img { max-width: 100%; display: block; }
           <div class="testimonial-avatar" style="background:#5C7D8A">SF</div>
           <div><div class="testimonial-name">Steven F</div><div class="testimonial-role">Seller</div></div>
         </div>
+      </div>
+    </div>
+    <div style="text-align:center; margin-top: 24px;">
+      <div class="review-snippet">
+        <svg class="review-snippet-logo" viewBox="0 0 24 24" width="20" height="20"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        <span class="review-snippet-stars">★★★★★</span>
+        <span class="review-snippet-text"><strong>5.0</strong> from 47 reviews</span>
       </div>
     </div>
   </div>
@@ -1353,6 +1677,14 @@ img { max-width: 100%; display: block; }
           <textarea placeholder="Tell us a bit about what you're looking for..." id="formMessage"></textarea>
         </div>
         <button class="form-submit" id="formSubmit">Send Message</button>
+        <div class="form-trust">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <p>Your details are secure and will never be shared with third parties. We typically respond within 2 hours during office hours.</p>
+        </div>
+        <div class="urgency-banner">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#92400E" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span><strong>High demand area</strong> — Properties in N6 are selling within 4 weeks on average</span>
+        </div>
       </div>
       <div class="form-success" id="formSuccess">
         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="9 12 12 15 16 10"/></svg>
@@ -1415,10 +1747,20 @@ img { max-width: 100%; display: block; }
       </div>
     </div>
     <div class="footer-bottom">
-      &copy; 2026 Highgate Estate Agents Ltd &middot; <a href="privacy-policy.html" style="color:rgba(255,255,255,.4)">Privacy Policy</a> &middot; <a href="terms.html" style="color:rgba(255,255,255,.4)">Terms</a> &middot; <a href="cookie-policy.html" style="color:rgba(255,255,255,.4)">Cookie Policy</a>
+      &copy; 2026 Highgate Estate Agents Ltd &middot; <a href="privacy-policy.html" style="color:rgba(255,255,255,.4)">Privacy Policy</a> &middot; <a href="terms.html" style="color:rgba(255,255,255,.4)">Terms</a> &middot; <a href="cookie-policy.html" style="color:rgba(255,255,255,.4)">Cookie Policy</a> &middot; <a href="admin.html" style="color:rgba(255,255,255,.2);font-size:10px" title="Admin Dashboard">Admin</a>
     </div>
   </div>
 </footer>
+
+<!-- STICKY BOOK VIEWING CTA -->
+<div class="sticky-cta" id="stickyCta">
+  <span class="sticky-cta-text">Looking to sell? <span>Get your free valuation today</span></span>
+  <a href="#contact-form" class="sticky-cta-btn" id="stickyCtaBtn">Book Free Valuation</a>
+  <a href="tel:02030514206" class="sticky-cta-phone">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+    Call Us
+  </a>
+</div>
 
 <!-- MOBILE STICKY BAR -->
 <div class="mobile-bar">
@@ -1448,6 +1790,7 @@ img { max-width: 100%; display: block; }
     <div class="chat-options" id="chatOptions">
       <button class="chat-option" data-reply="buy">I'm looking to buy</button>
       <button class="chat-option" data-reply="sell">I'd like to sell</button>
+      <button class="chat-option" data-reply="landlord">I'm a landlord</button>
       <button class="chat-option" data-reply="valuation">Free valuation</button>
       <button class="chat-option" data-reply="other">Something else</button>
     </div>
@@ -1495,10 +1838,29 @@ img { max-width: 100%; display: block; }
           <div class="modal-spec"><div class="modal-spec-val" id="modalSqft">2,533 sqft</div><div class="modal-spec-label">Floor Area</div></div>
           <div class="modal-spec"><div class="modal-spec-val">EPC C</div><div class="modal-spec-label">Energy Rating</div></div>
         </div>
-        <div class="modal-desc" id="modalDesc"></div>
+        <div class="modal-tabs">
+          <button class="modal-tab active" data-tab="desc">Details</button>
+          <button class="modal-tab" data-tab="floorplan">Floor Plan</button>
+          <button class="modal-tab" data-tab="tour">Virtual Tour</button>
+        </div>
+        <div class="modal-tab-content active" id="tabDesc">
+          <div class="modal-desc" id="modalDesc"></div>
+        </div>
+        <div class="modal-tab-content" id="tabFloorplan">
+          <div class="floorplan-placeholder" id="floorplanArea">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="9" x2="9" y2="21"/></svg>
+            <p><strong>Floor Plan</strong>Request the floor plan for this property by contacting us.</p>
+          </div>
+        </div>
+        <div class="modal-tab-content" id="tabTour">
+          <div class="tour-placeholder" id="tourArea">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="1.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            <p><strong>Virtual Tour</strong>Virtual tour coming soon. Contact us for a private viewing.</p>
+          </div>
+        </div>
         <div class="modal-cta">
-          <button class="cta-primary">Book Viewing</button>
-          <button class="cta-secondary">020 3051 4206</button>
+          <button class="cta-primary" id="modalBookViewing">Book Viewing</button>
+          <button class="cta-secondary" onclick="window.location.href='tel:02030514206'">020 3051 4206</button>
         </div>
       </div>
     </div>
@@ -1506,13 +1868,41 @@ img { max-width: 100%; display: block; }
 </div>
 
 <script>
-// Search toggle
+// ══ BUY / RENT TOGGLE (Enhanced) ══
+var searchMode = 'buy';
 document.querySelectorAll('.search-toggle span').forEach(function(btn) {
   btn.addEventListener('click', function() {
     document.querySelectorAll('.search-toggle span').forEach(function(b) {
       b.className = b === btn ? 'active' : 'inactive';
     });
+    searchMode = btn.textContent.trim().toLowerCase() === 'rent' ? 'rent' : 'buy';
+    // Toggle price options
+    var saleOpts = document.querySelectorAll('.sale-price');
+    var rentOpts = document.querySelectorAll('.rent-price');
+    if (searchMode === 'rent') {
+      saleOpts.forEach(function(o) { o.style.display = 'none'; });
+      rentOpts.forEach(function(o) { o.style.display = ''; });
+    } else {
+      saleOpts.forEach(function(o) { o.style.display = ''; });
+      rentOpts.forEach(function(o) { o.style.display = 'none'; });
+    }
+    // Reset price selections
+    document.getElementById('filterMinPrice').value = '';
+    document.getElementById('filterPrice').value = '';
   });
+});
+
+// ══ MAP VIEW TOGGLE ══
+var mapToggle = document.getElementById('mapToggle');
+var mapContainer = document.getElementById('mapContainer');
+mapToggle.addEventListener('click', function() {
+  mapToggle.classList.toggle('active');
+  mapContainer.classList.toggle('show');
+  if (mapContainer.classList.contains('show')) {
+    mapToggle.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Hide Map';
+  } else {
+    mapToggle.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg> Map View';
+  }
 });
 
 // Property filter
@@ -1529,12 +1919,15 @@ document.querySelectorAll('.search-toggle span').forEach(function(btn) {
   var cards = propertyGrid.querySelectorAll('.property-card');
   var totalCards = cards.length;
 
+  var filterMinPrice = document.getElementById('filterMinPrice');
+
   function filterProperties() {
     var loc = filterLocation.value.trim().toLowerCase();
     var type = filterType.value;
     var beds = filterBeds.value;
     var maxPrice = filterPrice.value;
-    var anyFilter = loc || type || beds || maxPrice;
+    var minPrice = filterMinPrice.value;
+    var anyFilter = loc || type || beds || maxPrice || minPrice;
     var visible = 0;
 
     cards.forEach(function(card) {
@@ -1560,6 +1953,12 @@ document.querySelectorAll('.search-toggle span').forEach(function(btn) {
       if (beds) {
         var cardBeds = parseInt(card.getAttribute('data-beds')) || 0;
         if (cardBeds < parseInt(beds)) show = false;
+      }
+
+      // Min price filter
+      if (minPrice) {
+        var cardPrice = parseInt(card.getAttribute('data-price')) || 0;
+        if (cardPrice < parseInt(minPrice)) show = false;
       }
 
       // Max price filter
@@ -1600,6 +1999,7 @@ document.querySelectorAll('.search-toggle span').forEach(function(btn) {
     filterType.value = '';
     filterBeds.value = '';
     filterPrice.value = '';
+    filterMinPrice.value = '';
     cards.forEach(function(card) { card.classList.remove('hidden'); });
     filterBar.classList.remove('show');
     noResults.classList.remove('show');
@@ -1632,7 +2032,7 @@ document.querySelectorAll('.area-card').forEach(function(card) {
   });
 });
 
-// Chatbot
+// ══ ENHANCED CHATBOT — Qualification, CTA push, handoff ══
 var chatToggle = document.getElementById('chatToggle');
 var chatWindow = document.getElementById('chatWindow');
 var chatClose = document.getElementById('chatClose');
@@ -1649,65 +2049,153 @@ chatClose.addEventListener('click', function() {
 
 var botReplies = {
   buy: {
-    msg: "What type of property are you looking for?",
+    msg: "Great! Let me help you find the right property. What type are you looking for?",
     options: [
       { text: "House", reply: "buy-house" },
-      { text: "Apartment", reply: "buy-apt" },
+      { text: "Apartment / Flat", reply: "buy-apt" },
       { text: "Not sure yet", reply: "buy-unsure" }
     ]
   },
   sell: {
-    msg: "We offer free, no-obligation property valuations. Would you like to book one?",
+    msg: "We'd love to help you sell. Our valuations are completely free with no obligation. Are you ready to sell, or just exploring?",
     options: [
-      { text: "Yes, book a valuation", reply: "valuation" },
-      { text: "Tell me about your fees", reply: "fees" },
-      { text: "Speak to someone", reply: "speak" }
+      { text: "Ready to sell now", reply: "sell-ready" },
+      { text: "Just want a valuation", reply: "valuation" },
+      { text: "Tell me about your fees", reply: "fees" }
+    ]
+  },
+  "sell-ready": {
+    msg: "Excellent! The first step is a free home valuation. Our local expert will visit your property and give you a realistic asking price based on recent comparable sales in your area. Shall I book you in?",
+    options: [
+      { text: "Book my free valuation", reply: "val-book" },
+      { text: "Call me to discuss", reply: "speak" }
     ]
   },
   valuation: {
-    msg: "Our experienced team will visit your property and provide a detailed valuation report. You can book online or call us on 020 3051 4206.",
+    msg: "Our experienced team will visit your property and provide a detailed valuation report, including comparable sales data and marketing recommendations. It takes about 45 minutes and there's absolutely no obligation.",
     options: [
-      { text: "Book online", reply: "done" },
-      { text: "Call now", reply: "done" }
+      { text: "Book my free valuation", reply: "val-book" },
+      { text: "Call me to discuss", reply: "speak" }
+    ]
+  },
+  "val-book": {
+    msg: "Perfect! Let me take you to our booking form so you can choose a convenient time.",
+    options: [],
+    action: "scroll-contact"
+  },
+  landlord: {
+    msg: "We offer a full lettings and property management service. Are you looking to let a property, or do you need management for an existing let?",
+    options: [
+      { text: "Let a new property", reply: "landlord-new" },
+      { text: "Management services", reply: "landlord-manage" },
+      { text: "Rental valuation", reply: "landlord-val" }
+    ]
+  },
+  "landlord-new": {
+    msg: "We'll help you find the right tenant quickly. We handle everything from marketing through to referencing and move-in. Would you like a free rental valuation first?",
+    options: [
+      { text: "Free rental valuation", reply: "val-book" },
+      { text: "Tell me about fees", reply: "landlord-fees" }
+    ]
+  },
+  "landlord-manage": {
+    msg: "Our management service covers rent collection, maintenance coordination, inspections, and legal compliance. Shall I get one of our lettings team to call you?",
+    options: [
+      { text: "Yes, call me", reply: "speak" },
+      { text: "Send me details", reply: "val-book" }
+    ]
+  },
+  "landlord-val": {
+    msg: "We offer free rental valuations. Our team will assess your property and provide a realistic rental estimate based on current market conditions.",
+    options: [
+      { text: "Book rental valuation", reply: "val-book" },
+      { text: "Call me", reply: "speak" }
+    ]
+  },
+  "landlord-fees": {
+    msg: "We offer competitive letting fees starting from 8% + VAT for let-only, or 12% + VAT for fully managed. No hidden charges. Want to discuss your specific needs?",
+    options: [
+      { text: "Yes, call me", reply: "speak" },
+      { text: "Book a valuation first", reply: "val-book" }
     ]
   },
   other: {
-    msg: "No problem! You can call us on 020 3051 4206, send an email to info@highgateestateagents.co.uk, or type your question below.",
-    options: []
+    msg: "No problem! You can call us on 020 3051 4206, email info@highgateestateagents.co.uk, or tell me what you need help with and I'll point you in the right direction.",
+    options: [
+      { text: "Book a viewing", reply: "buy" },
+      { text: "Get a valuation", reply: "valuation" },
+      { text: "Speak to someone", reply: "speak" }
+    ]
   },
   fees: {
-    msg: "We operate on a no sale, no fee basis. We offer both flat-rate and percentage fee structures. Would you like to discuss this with one of our team?",
+    msg: "We operate on a no sale, no fee basis with transparent pricing. We offer both flat-rate (from £4,995) and percentage options (from 1% + VAT). No tie-in period. Would you like to discuss this with our team?",
     options: [
-      { text: "Yes, call me", reply: "speak" },
-      { text: "Book a valuation first", reply: "valuation" }
+      { text: "Yes, call me back", reply: "speak" },
+      { text: "Book a free valuation", reply: "val-book" }
     ]
   },
   speak: {
-    msg: "You can reach us on 020 3051 4206 (Mon-Fri 9am-6pm, Sat 10am-4pm) or send a WhatsApp message any time.",
-    options: []
+    msg: "You can reach us on 020 3051 4206 (Mon-Fri 9am-6pm, Sat 10am-4pm), WhatsApp any time, or fill in our contact form and we'll call you back within 2 hours.",
+    options: [
+      { text: "Go to contact form", reply: "val-book" }
+    ]
   },
   "buy-house": {
-    msg: "We have houses available across Highgate, Muswell Hill, Crouch End and surrounding areas. What's your approximate budget?",
+    msg: "Excellent! We have houses across Highgate, Muswell Hill, Crouch End, Hornsey and more. What's your approximate budget?",
     options: [
-      { text: "Up to £1M", reply: "done" },
-      { text: "£1M - £2M", reply: "done" },
-      { text: "Over £2M", reply: "done" }
+      { text: "Up to £1M", reply: "buy-budget-low" },
+      { text: "£1M - £2M", reply: "buy-budget-mid" },
+      { text: "Over £2M", reply: "buy-budget-high" }
     ]
   },
   "buy-apt": {
-    msg: "We have apartments available from studio to 3-bed across North London. What's your budget range?",
+    msg: "We have flats and apartments from studio to 3-bed across North London. What's your budget range?",
     options: [
-      { text: "Up to £500k", reply: "done" },
-      { text: "£500k - £1M", reply: "done" },
-      { text: "Over £1M", reply: "done" }
+      { text: "Up to £500k", reply: "buy-budget-low" },
+      { text: "£500k - £1M", reply: "buy-budget-mid" },
+      { text: "Over £1M", reply: "buy-budget-high" }
     ]
   },
   "buy-unsure": {
-    msg: "No problem! I'd recommend registering your details so our team can match you with suitable properties. Would you like to do that?",
+    msg: "No problem! Our team can help you understand what's available in your budget. Would you like to register your requirements so we can send you matching properties?",
     options: [
-      { text: "Yes, register me", reply: "done" },
-      { text: "Browse listings first", reply: "done" }
+      { text: "Register my details", reply: "val-book" },
+      { text: "Browse current listings", reply: "buy-browse" }
     ]
+  },
+  "buy-budget-low": {
+    msg: "Great range! We have several properties in that bracket. How many bedrooms do you need?",
+    options: [
+      { text: "1-2 bedrooms", reply: "buy-register" },
+      { text: "3+ bedrooms", reply: "buy-register" }
+    ]
+  },
+  "buy-budget-mid": {
+    msg: "Excellent budget — lots of options in Highgate and the surrounding areas. How many bedrooms do you need?",
+    options: [
+      { text: "2-3 bedrooms", reply: "buy-register" },
+      { text: "4+ bedrooms", reply: "buy-register" }
+    ]
+  },
+  "buy-budget-high": {
+    msg: "Premium range — we specialise in high-value properties across North London. How many bedrooms are you looking for?",
+    options: [
+      { text: "3-4 bedrooms", reply: "buy-register" },
+      { text: "5+ bedrooms", reply: "buy-register" }
+    ]
+  },
+  "buy-register": {
+    msg: "Perfect, I have a good picture of what you're looking for. Let me connect you with our sales team who can set up tailored property alerts and arrange viewings for you.",
+    options: [
+      { text: "Register & get alerts", reply: "val-book" },
+      { text: "Browse listings now", reply: "buy-browse" },
+      { text: "Call to discuss", reply: "speak" }
+    ]
+  },
+  "buy-browse": {
+    msg: "Let me take you to our property listings where you can filter by area, price, and type.",
+    options: [],
+    action: "scroll-properties"
   },
   done: {
     msg: "Thank you! One of our team will be in touch shortly. In the meantime, feel free to browse our properties or call us on 020 3051 4206.",
@@ -1747,6 +2235,16 @@ function addOptions(options) {
   chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
+function showTyping() {
+  var t = document.createElement('div');
+  t.className = 'chat-typing';
+  t.id = 'chatTyping';
+  t.innerHTML = '<span></span><span></span><span></span>';
+  chatMessages.appendChild(t);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+  return t;
+}
+
 function handleOption(e) {
   var btn = e.target;
   var reply = btn.getAttribute('data-reply');
@@ -1758,13 +2256,31 @@ function handleOption(e) {
 
   addUserMessage(text);
 
+  var typing = showTyping();
+
   setTimeout(function() {
+    typing.remove();
     var response = botReplies[reply];
     if (response) {
       addBotMessage(response.msg);
+      // Handle action-based CTA handoffs
+      if (response.action === 'scroll-contact') {
+        setTimeout(function() {
+          chatWindow.classList.remove('open');
+          document.getElementById('contact-form').scrollIntoView({ behavior: 'smooth' });
+          // Pre-select valuation in the form
+          var formInterest = document.getElementById('formInterest');
+          if (formInterest) formInterest.value = 'valuation';
+        }, 1200);
+      } else if (response.action === 'scroll-properties') {
+        setTimeout(function() {
+          chatWindow.classList.remove('open');
+          document.getElementById('properties').scrollIntoView({ behavior: 'smooth' });
+        }, 1200);
+      }
       setTimeout(function() { addOptions(response.options); }, 400);
     }
-  }, 600);
+  }, 800);
 }
 
 // Initial options
@@ -1782,13 +2298,28 @@ function sendTextMessage() {
   var lower = text.toLowerCase();
   var replyKey = 'other';
   if (lower.indexOf('sell') !== -1 || lower.indexOf('valuation') !== -1) replyKey = 'sell';
-  else if (lower.indexOf('buy') !== -1 || lower.indexOf('looking') !== -1) replyKey = 'buy';
+  else if (lower.indexOf('landlord') !== -1 || lower.indexOf('rent') !== -1 || lower.indexOf('let') !== -1 || lower.indexOf('tenant') !== -1) replyKey = 'landlord';
+  else if (lower.indexOf('buy') !== -1 || lower.indexOf('looking') !== -1 || lower.indexOf('purchase') !== -1) replyKey = 'buy';
   else if (lower.indexOf('call') !== -1 || lower.indexOf('speak') !== -1 || lower.indexOf('phone') !== -1) replyKey = 'speak';
-  else if (lower.indexOf('fee') !== -1 || lower.indexOf('cost') !== -1 || lower.indexOf('price') !== -1) replyKey = 'fees';
+  else if (lower.indexOf('fee') !== -1 || lower.indexOf('cost') !== -1 || lower.indexOf('price') !== -1 || lower.indexOf('charge') !== -1) replyKey = 'fees';
+  else if (lower.indexOf('view') !== -1 || lower.indexOf('visit') !== -1) replyKey = 'buy';
 
+  var typing = showTyping();
   setTimeout(function() {
+    typing.remove();
     var response = botReplies[replyKey];
     addBotMessage(response.msg);
+    if (response.action === 'scroll-contact') {
+      setTimeout(function() {
+        chatWindow.classList.remove('open');
+        document.getElementById('contact-form').scrollIntoView({ behavior: 'smooth' });
+      }, 1200);
+    } else if (response.action === 'scroll-properties') {
+      setTimeout(function() {
+        chatWindow.classList.remove('open');
+        document.getElementById('properties').scrollIntoView({ behavior: 'smooth' });
+      }, 1200);
+    }
     setTimeout(function() { addOptions(response.options); }, 400);
   }, 800);
 }
@@ -2007,6 +2538,7 @@ document.getElementById('viewAllBtn').addEventListener('click', function() {
   document.getElementById('filterType').value = '';
   document.getElementById('filterBeds').value = '';
   document.getElementById('filterPrice').value = '';
+  document.getElementById('filterMinPrice').value = '';
   // Show all cards
   document.querySelectorAll('.property-card').forEach(function(c) { c.classList.remove('hidden'); });
   // Hide filter bar and no-results
@@ -2110,6 +2642,63 @@ document.querySelectorAll('.property-fav').forEach(function(btn) {
     e.stopPropagation();
     btn.classList.toggle('liked');
   });
+});
+
+// ══ MODAL TABS — Details / Floor Plan / Virtual Tour ══
+document.querySelectorAll('.modal-tab').forEach(function(tab) {
+  tab.addEventListener('click', function() {
+    document.querySelectorAll('.modal-tab').forEach(function(t) { t.classList.remove('active'); });
+    document.querySelectorAll('.modal-tab-content').forEach(function(c) { c.classList.remove('active'); });
+    tab.classList.add('active');
+    var target = tab.getAttribute('data-tab');
+    if (target === 'desc') document.getElementById('tabDesc').classList.add('active');
+    else if (target === 'floorplan') document.getElementById('tabFloorplan').classList.add('active');
+    else if (target === 'tour') document.getElementById('tabTour').classList.add('active');
+  });
+});
+
+// ══ MODAL BOOK VIEWING — Handoff to contact form ══
+document.getElementById('modalBookViewing').addEventListener('click', function() {
+  closeModal();
+  var contactForm = document.getElementById('contact-form');
+  if (contactForm) contactForm.scrollIntoView({ behavior: 'smooth' });
+  // Pre-select viewing in the form
+  setTimeout(function() {
+    var formInterest = document.getElementById('formInterest');
+    if (formInterest) formInterest.value = 'viewing';
+  }, 600);
+});
+
+// ══ STICKY CTA BAR — Shows after scrolling past properties ══
+var stickyCta = document.getElementById('stickyCta');
+var propertiesSection = document.getElementById('properties');
+var stickyObserver = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
+    // Show sticky CTA when properties section has been scrolled past
+    if (!entry.isIntersecting && entry.boundingClientRect.top < 0) {
+      stickyCta.classList.add('show');
+    } else {
+      stickyCta.classList.remove('show');
+    }
+  });
+}, { threshold: 0 });
+if (propertiesSection) stickyObserver.observe(propertiesSection);
+
+// Sticky CTA scroll handler
+document.getElementById('stickyCtaBtn').addEventListener('click', function(e) {
+  e.preventDefault();
+  document.getElementById('contact-form').scrollIntoView({ behavior: 'smooth' });
+  // Pre-select valuation
+  setTimeout(function() {
+    var formInterest = document.getElementById('formInterest');
+    if (formInterest) formInterest.value = 'valuation';
+  }, 600);
+});
+
+// ══ VIEW ALL also clears min price ══
+var origViewAll = document.getElementById('viewAllBtn');
+origViewAll.addEventListener('click', function() {
+  document.getElementById('filterMinPrice').value = '';
 });
 </script>
 
